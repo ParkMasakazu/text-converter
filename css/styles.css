@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+.app-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.section {
+    margin-bottom: 15px;
+    width: 100%;
+}
+.section-title {
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+.clickable-title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clickable-title:hover {
+    color: #1976d2;
+}
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 3px;
+}
+.compact-checkbox .MuiFormControlLabel-root {
+    margin: 0 0 -2px 0;
+    min-height: 30px;
+}
+.compact-checkbox .MuiFormControlLabel-label {
+    font-size: 0.85rem;
+    line-height: 1rem;
+}
+.compact-checkbox .MuiCheckbox-root {
+    padding: 2px;
+}
+.custom-replace {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.line-count {
+    max-height: 100px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.counts-grid {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.count-item {
+    flex: 1;
+}
+.resizable-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 90%;
+    line-height: 1.2;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.resizable-textarea:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+.compact-card-content {
+    padding: 10px !important;
+}
+.stats-inline {
+    display: inline-block;
+    margin-right: 12px;
+    white-space: nowrap;
+}
+@media (max-width: 600px) {
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    .custom-replace {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .counts-grid {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
