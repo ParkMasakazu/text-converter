@@ -1,9 +1,57 @@
 const {
     Button, TextField, Checkbox, FormControlLabel, Typography, Paper, Grid, Divider, IconButton,
-    Box, Container, Snackbar, FormGroup, Card, CardContent, Collapse
+    Box, Container, Snackbar, FormGroup, Card, CardContent, Collapse, Switch,
+    createTheme, ThemeProvider
 } = MaterialUI;
 
 function TextConverterApp() {
+    // ダークモード状態の管理
+    const [darkMode, setDarkMode] = React.useState(false);
+    
+    // テーマの定義
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: darkMode ? 'dark' : 'light',
+                    primary: {
+                        main: darkMode ? '#90caf9' : '#1976d2',
+                    },
+                    secondary: {
+                        main: darkMode ? '#f48fb1' : '#dc004e',
+                    },
+                    background: {
+                        default: darkMode ? '#121212' : '#f5f5f5',
+                        paper: darkMode ? '#1e1e1e' : '#ffffff',
+                    },
+                    border: {
+                        textarea: darkMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                        button: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+                    },
+                    text: {
+                        primary: darkMode ? 'rgba(255, 255, 255, 0.87)' : 'rgba(0, 0, 0, 0.87)',
+                        secondary: darkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)',
+                    },
+                },
+            }),
+        [darkMode],
+    );
+    
+    // ダークモード切替ハンドラー
+    const handleThemeChange = () => {
+        setDarkMode(!darkMode);
+        // ローカルストレージに設定を保存
+        localStorage.setItem('darkMode', !darkMode);
+    };
+
+    // システムの色設定を検出する関数
+    const detectColorScheme = () => {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return true; // ダークモード
+        }
+        return false; // ライトモード
+    };
+
     // 定数定義
     const CONVERSION_OPTIONS = {
         spaceNormalization: {
@@ -356,226 +404,354 @@ function TextConverterApp() {
         ));
     };
 
+    // 初期設定を行うuseEffectを修正
+    React.useEffect(() => {
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode !== null) {
+            // ローカルストレージに保存された設定がある場合はそれを使用
+            setDarkMode(savedMode === 'true');
+        } else {
+            // 保存された設定がない場合はシステム設定を使用
+            setDarkMode(detectColorScheme());
+        }
+        
+        // システム設定の変更を監視
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = (e) => {
+            // ローカルストレージに設定がない場合のみ自動変更
+            if (localStorage.getItem('darkMode') === null) {
+                setDarkMode(e.matches);
+            }
+        };
+        
+        // 変更リスナーを追加（ブラウザ間の互換性に配慮）
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleChange);
+        } else {
+            // 古いブラウザ向け
+            mediaQuery.addListener(handleChange);
+        }
+        
+        // クリーンアップ関数
+        if (mediaQuery.removeEventListener) {
+            mediaQuery.removeEventListener('change', handleChange);
+        } else {
+            // 古いブラウザ向け
+            mediaQuery.removeListener(handleChange);
+        }
+
+        // ダークモードの状態に応じてクラスを追加
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    }, [darkMode]);
+
     // ============= レンダリング =============
     return (
-        <Container className="app-container" maxWidth={false}>
-            {/* テキスト入力/変換結果セクション */}
-            <Card className="section">
-                <CardContent className="compact-card-content">
-                    <Typography variant="h6" className="section-title">
-                        テキスト入力/変換結果
-                    </Typography>
-                    <textarea
-                        className="resizable-textarea"
-                        value={inputText}
-                        onChange={handleInputChange}
-                        placeholder="ここにテキストを入力してください..."
-                    ></textarea>
-                    <Box className="button-group" mt={2}>
-                        <Button 
-                            variant="outlined" 
-                            color="secondary" 
-                            startIcon={<span className="material-icons">clear</span>}
-                            onClick={handleClear}
-                            size="small"
-                        >
-                            クリア
-                        </Button>
-                        <Button 
-                            variant="outlined" 
-                            color="primary"
-                            onClick={handleCopy}
-                            startIcon={<span className="material-icons">content_copy</span>}
-                            disabled={!inputText}
-                            size="small"
-                        >
-                            コピー
-                        </Button>
-                        <Button 
-                            variant="outlined" 
-                            color="primary"
-                            onClick={handleUndo}
-                            startIcon={<span className="material-icons">undo</span>}
-                            disabled={historyIndex <= 0}
-                            size="small"
-                        >
-                            戻る
-                        </Button>
-                        <Button 
-                            variant="outlined" 
-                            color="primary"
-                            onClick={handleRedo}
-                            startIcon={<span className="material-icons">redo</span>}
-                            disabled={historyIndex >= history.length - 1}
-                            size="small"
-                        >
-                            進む
-                        </Button>
-                        <Button 
-                            variant="outlined" 
-                            color="secondary"
-                            onClick={handleReset}
-                            startIcon={<span className="material-icons">restore</span>}
-                            size="small"
-                        >
-                            最初に戻す
-                        </Button>
-                        <Typography variant="caption" style={{ display: 'flex', alignItems: 'center', marginLeft: '8px', color: '#666' }}>
-                            （直接テキストを編集すると戻す初期値が更新されます。）
-                        </Typography>
-                    </Box>
-                    
-                    {/* 文字数・バイト数・行数カウント */}
-                    <Box mt={2}>
-                        <Typography variant="body2">
-                            全体: {totalChars}文字 / {totalBytes}バイト / {totalLines}行
-                        </Typography>
-                        <Typography variant="body2" mt={1}>
-                            {getLineStats()}
-                        </Typography>
-                    </Box>
-                </CardContent>
-            </Card>
+        <ThemeProvider theme={theme}>
+            <Paper
+                style={{
+                    minHeight: '100vh',
+                    borderRadius: 0,
+                    boxShadow: 'none',
+                    transition: 'background-color 0.3s, color 0.3s',
+                }}
+            >
+                <Container className="app-container" maxWidth={false}>
+                    {/* テキスト入力/変換結果セクション */}
+                    <Card className="section">
+                        <CardContent className="compact-card-content" style={{
+                            backgroundColor: theme.palette.background.paper
+                        }}>
+                            <Typography 
+                                variant="h6" 
+                                className="section-title top-title"
+                                style={{
+                                    color: theme.palette.text.primary
+                                }}
+                            >
+                                テキスト入力/変換結果
+                                <IconButton 
+                                    onClick={handleThemeChange} 
+                                    color="inherit" 
+                                    size="small"
+                                    aria-label="テーマを切り替え"
+                                >
+                                    <span className="material-icons">
+                                        {darkMode ? 'light_mode' : 'dark_mode'}
+                                    </span>
+                                </IconButton>
+                            </Typography>
+                            <textarea
+                                className="resizable-textarea"
+                                value={inputText}
+                                onChange={handleInputChange}
+                                placeholder="ここにテキストを入力してください..."
+                                style={{
+                                    backgroundColor: theme.palette.background.paper,
+                                    color: theme.palette.text.primary,
+                                    borderColor: theme.palette.border.textarea
+                                }}
+                            ></textarea>
+                            <Box className="button-group" mt={2}>
+                                <Button 
+                                    variant="outlined" 
+                                    color="secondary" 
+                                    startIcon={<span className="material-icons">clear</span>}
+                                    onClick={handleClear}
+                                    size="small"
+                                >
+                                    クリア
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="primary"
+                                    onClick={handleCopy}
+                                    startIcon={<span className="material-icons">content_copy</span>}
+                                    disabled={!inputText}
+                                    size="small"
+                                >
+                                    コピー
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="primary"
+                                    onClick={handleUndo}
+                                    startIcon={<span className="material-icons">undo</span>}
+                                    disabled={historyIndex <= 0}
+                                    size="small"
+                                >
+                                    戻る
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="primary"
+                                    onClick={handleRedo}
+                                    startIcon={<span className="material-icons">redo</span>}
+                                    disabled={historyIndex >= history.length - 1}
+                                    size="small"
+                                >
+                                    進む
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="secondary"
+                                    onClick={handleReset}
+                                    startIcon={<span className="material-icons">restore</span>}
+                                    size="small"
+                                >
+                                    最初に戻す
+                                </Button>
+                                <Typography variant="caption" style={{ display: 'flex', alignItems: 'center', marginLeft: '8px', color: '#666' }}>
+                                    （直接テキストを編集すると戻す初期値が更新されます。）
+                                </Typography>
+                            </Box>
+                            
+                            {/* 文字数・バイト数・行数カウント */}
+                            <Box mt={2}>
+                                <Typography variant="body2">
+                                    全体: {totalChars}文字 / {totalBytes}バイト / {totalLines}行
+                                </Typography>
+                                <Typography variant="body2" mt={1}>
+                                    {getLineStats()}
+                                </Typography>
+                            </Box>
+                        </CardContent>
+                    </Card>
 
-            {/* 個別変換ボタンセクション */}
-            <Card className="section">
-                <CardContent className="compact-card-content">
-                    <Typography variant="h6" className="section-title">
-                        個別変換
-                    </Typography>
-                    <Box className="button-group">
-                        {Object.entries(CONVERSION_OPTIONS).map(([key, { label }]) => (
-                            <Button 
-                                key={key}
-                                variant="outlined"
-                                onClick={() => handleSingleConvert(key)}
-                                size="small"
-                            >
-                                {label}
-                            </Button>
-                        ))}
-                    </Box>
-                </CardContent>
-            </Card>
+                    {/* 個別変換ボタンセクション */}
+                    <Card className="section">
+                        <CardContent className="compact-card-content" style={{
+                            backgroundColor: theme.palette.background.paper
+                        }}>
+                            <Typography variant="h6" className="section-title" style={{
+                                color: theme.palette.text.primary
+                            }}>
+                                個別変換
+                            </Typography>
+                            <Box className="button-group">
+                                {Object.entries(CONVERSION_OPTIONS).map(([key, { label }]) => (
+                                    <Button 
+                                        key={key}
+                                        variant="outlined"
+                                        onClick={() => handleSingleConvert(key)}
+                                        size="small"
+                                        style={{ borderColor: theme.palette.border.button }}
+                                    >
+                                        {label}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </CardContent>
+                    </Card>
 
-            {/* 変換オプションセクション */}
-            <Card className="section">
-                <CardContent className="compact-card-content">
-                    <Typography 
-                        variant="h6" 
-                        className="section-title clickable-title"
-                        onClick={toggleOptions}
-                    >
-                        一括変換
-                        <span className="material-icons">
-                            {optionsExpanded ? 'expand_less' : 'expand_more'}
-                        </span>
-                    </Typography>
-                    <Collapse in={optionsExpanded}>
-                        <Box mb={1}>
-                            <Button 
-                                variant="text" 
-                                color="primary" 
-                                onClick={() => handleSelectAll(true)}
-                                size="small"
+                    {/* 変換オプションセクション */}
+                    <Card className="section">
+                        <CardContent className="compact-card-content" style={{
+                            backgroundColor: theme.palette.background.paper
+                        }}>
+                            <Typography 
+                                variant="h6" 
+                                className="section-title clickable-title"
+                                onClick={toggleOptions}
+                                style={{
+                                    color: theme.palette.text.primary
+                                }}
                             >
-                                すべて選択
-                            </Button>
-                            <Button 
-                                variant="text" 
-                                color="primary" 
-                                onClick={() => handleSelectAll(false)}
-                                size="small"
-                            >
-                                すべて解除
-                            </Button>
-                        </Box>
-                        <FormGroup className="checkbox-group">
-                            {Object.entries(CONVERSION_OPTIONS).map(([key, { label }]) => (
-                                <div key={key} className="compact-checkbox">
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox 
-                                                checked={options[key]} 
-                                                onChange={handleCheckboxChange}
-                                                name={key}
-                                                color="primary"
-                                                size="small"
+                                一括変換
+                                <span className="material-icons">
+                                    {optionsExpanded ? 'expand_less' : 'expand_more'}
+                                </span>
+                            </Typography>
+                            <Collapse in={optionsExpanded}>
+                                <Box mb={1}>
+                                    <Button 
+                                        variant="text" 
+                                        color="primary" 
+                                        onClick={() => handleSelectAll(true)}
+                                        size="small"
+                                    >
+                                        すべて選択
+                                    </Button>
+                                    <Button 
+                                        variant="text" 
+                                        color="primary" 
+                                        onClick={() => handleSelectAll(false)}
+                                        size="small"
+                                    >
+                                        すべて解除
+                                    </Button>
+                                </Box>
+                                <FormGroup className="checkbox-group">
+                                    {Object.entries(CONVERSION_OPTIONS).map(([key, { label }]) => (
+                                        <div key={key} className="compact-checkbox">
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox 
+                                                        checked={options[key]} 
+                                                        onChange={handleCheckboxChange}
+                                                        name={key}
+                                                        color="primary"
+                                                        size="small"
+                                                    />
+                                                }
+                                                label={label}
+                                                style={{
+                                                    color: theme.palette.text.primary
+                                                }}
                                             />
-                                        }
-                                        label={label}
+                                        </div>
+                                    ))}
+                                </FormGroup>
+                                <Box className="button-group" mt={1}>
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary"
+                                        onClick={handleBatchConvert}
+                                        startIcon={<span className="material-icons">transform</span>}
+                                        size="small"
+                                    >
+                                        選択した変換を一括適用
+                                    </Button>
+                                </Box>
+                            </Collapse>
+                        </CardContent>
+                    </Card>
+
+                    {/* カスタム置換セクション */}
+                    <Card className="section">
+                        <CardContent className="compact-card-content" style={{
+                            backgroundColor: theme.palette.background.paper
+                        }}>
+                            <Typography 
+                                variant="h6" 
+                                className="section-title clickable-title"
+                                onClick={toggleCustomReplace}
+                                style={{
+                                    color: theme.palette.text.primary
+                                }}
+                            >
+                                一括置換
+                                <span className="material-icons">
+                                    {customReplaceExpanded ? 'expand_less' : 'expand_more'}
+                                </span>
+                            </Typography>
+                            <Collapse in={customReplaceExpanded}>
+                                <div className="custom-replace">
+                                    <TextField
+                                        label="検索文字列"
+                                        variant="outlined"
+                                        value={searchText}
+                                        onChange={(e) => setSearchText(e.target.value)}
+                                        size="small"
+                                        style={{
+                                            minWidth: '150px',
+                                            backgroundColor: theme.palette.background.paper
+                                        }}
+                                        InputLabelProps={{
+                                            style: {
+                                                color: theme.palette.text.secondary
+                                            }
+                                        }}
+                                        InputProps={{
+                                            style: {
+                                                color: theme.palette.text.primary
+                                            },
+                                            classes: {
+                                                notchedOutline: darkMode ? 'dark-mode-outline' : ''
+                                            }
+                                        }}                                
                                     />
+                                    <TextField
+                                        label="置換文字列"
+                                        variant="outlined"
+                                        value={replaceText}
+                                        onChange={(e) => setReplaceText(e.target.value)}
+                                        size="small"
+                                        style={{
+                                            minWidth: '150px',
+                                            backgroundColor: theme.palette.background.paper
+                                        }}
+                                        InputLabelProps={{
+                                            style: {
+                                                color: theme.palette.text.secondary
+                                            }
+                                        }}
+                                        InputProps={{
+                                            style: {
+                                                color: theme.palette.text.primary
+                                            },
+                                            classes: {
+                                                notchedOutline: darkMode ? 'dark-mode-outline' : ''
+                                            }
+                                        }}                                
+                                    />
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary"
+                                        onClick={handleCustomReplace}
+                                        startIcon={<span className="material-icons">find_replace</span>}
+                                        size="small"
+                                    >
+                                        置換
+                                    </Button>
                                 </div>
-                            ))}
-                        </FormGroup>
-                        <Box className="button-group" mt={1}>
-                            <Button 
-                                variant="contained" 
-                                color="primary"
-                                onClick={handleBatchConvert}
-                                startIcon={<span className="material-icons">transform</span>}
-                                size="small"
-                            >
-                                選択した変換を一括適用
-                            </Button>
-                        </Box>
-                    </Collapse>
-                </CardContent>
-            </Card>
+                            </Collapse>
+                        </CardContent>
+                    </Card>
 
-            {/* カスタム置換セクション */}
-            <Card className="section">
-                <CardContent className="compact-card-content">
-                    <Typography 
-                        variant="h6" 
-                        className="section-title clickable-title"
-                        onClick={toggleCustomReplace}
-                    >
-                        一括置換
-                        <span className="material-icons">
-                            {customReplaceExpanded ? 'expand_less' : 'expand_more'}
-                        </span>
-                    </Typography>
-                    <Collapse in={customReplaceExpanded}>
-                        <div className="custom-replace">
-                            <TextField
-                                label="検索文字列"
-                                variant="outlined"
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                size="small"
-                                style={{ minWidth: '150px' }}
-                            />
-                            <TextField
-                                label="置換文字列"
-                                variant="outlined"
-                                value={replaceText}
-                                onChange={(e) => setReplaceText(e.target.value)}
-                                size="small"
-                                style={{ minWidth: '150px' }}
-                            />
-                            <Button 
-                                variant="contained" 
-                                color="primary"
-                                onClick={handleCustomReplace}
-                                startIcon={<span className="material-icons">find_replace</span>}
-                                size="small"
-                            >
-                                置換
-                            </Button>
-                        </div>
-                    </Collapse>
-                </CardContent>
-            </Card>
-
-            {/* スナックバー（通知） */}
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-                message={snackbarMessage}
-            />
-        </Container>
+                    {/* スナックバー（通知） */}
+                    <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={3000}
+                        onClose={handleSnackbarClose}
+                        message={snackbarMessage}
+                    />
+                </Container>
+            </Paper>
+        </ThemeProvider>
     );
 }
 
