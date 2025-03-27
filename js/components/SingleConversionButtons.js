@@ -7,19 +7,14 @@ TextConverter.Components = TextConverter.Components || {};
  */
 TextConverter.Components.SingleConversionButtons = ({ 
     CONVERSION_OPTIONS, 
-    handleSingleConvert, 
-    theme 
+    handleSingleConvert
 }) => {
     const { Box, Button, Card, CardContent, Typography } = MaterialUI;
     
     return (
         <Card className="section">
-            <CardContent className="compact-card-content" style={{
-                backgroundColor: theme.palette.background.paper
-            }}>
-                <Typography variant="h6" className="section-title" style={{
-                    color: theme.palette.text.primary
-                }}>
+            <CardContent className="compact-card-content">
+                <Typography variant="h6" className="section-title">
                     個別変換
                 </Typography>
                 <Box className="button-group">
@@ -27,9 +22,9 @@ TextConverter.Components.SingleConversionButtons = ({
                         <Button 
                             key={key}
                             variant="outlined"
+                            color="inherit" 
                             onClick={() => handleSingleConvert(key)}
                             size="small"
-                            style={{ borderColor: theme.palette.border.button }}
                         >
                             {label}
                         </Button>

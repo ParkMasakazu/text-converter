@@ -13,8 +13,7 @@ TextConverter.Components.ActionButtons = ({
     handleReset,
     inputText,
     historyIndex,
-    historyLength,
-    theme
+    historyLength
 }) => {
     const { Button, Box, Typography } = MaterialUI;
     
@@ -68,12 +67,7 @@ TextConverter.Components.ActionButtons = ({
             >
                 最初に戻す
             </Button>
-            <Typography variant="caption" style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                marginLeft: '8px', 
-                color: theme.palette.text.secondary 
-            }}>
+            <Typography variant="caption">
                 （直接テキストを編集すると戻す初期値が更新されます。）
             </Typography>
         </Box>

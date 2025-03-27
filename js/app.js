@@ -1,6 +1,6 @@
 // メインアプリケーションコンポーネント
 function TextConverterApp() {
-    const { Paper, Container, Snackbar, ThemeProvider, Card, CardContent } = MaterialUI;
+    const { Paper, Container, Snackbar, ThemeProvider, Card, CardContent, Box } = MaterialUI;
     
     // カスタムフックを使用
     const { darkMode, theme, handleThemeChange } = TextConverter.Hooks.useThemeMode();
@@ -55,14 +55,11 @@ function TextConverterApp() {
                 <Container className="app-container" maxWidth={false}>
                     {/* テキスト入力/変換結果セクション（カードで包む） */}
                     <Card className="section">
-                        <CardContent className="compact-card-content" style={{
-                            backgroundColor: theme.palette.background.paper
-                        }}>
+                        <CardContent className="compact-card-content">
                             {/* テキスト入力エリア */}
                             <TextConverter.Components.TextInput 
                                 inputText={inputText}
                                 handleInputChange={handleInputChange}
-                                theme={theme}
                                 darkMode={darkMode}
                                 handleThemeChange={handleThemeChange}
                             />
@@ -77,13 +74,11 @@ function TextConverterApp() {
                                 inputText={inputText}
                                 historyIndex={historyIndex}
                                 historyLength={history.length}
-                                theme={theme}
                             />
                             
                             {/* テキスト統計情報 */}
                             <TextConverter.Components.TextStats 
                                 textStats={textStats}
-                                theme={theme}
                             />
                         </CardContent>
                     </Card>
@@ -92,7 +87,6 @@ function TextConverterApp() {
                     <TextConverter.Components.SingleConversionButtons
                         CONVERSION_OPTIONS={CONVERSION_OPTIONS}
                         handleSingleConvert={handleSingleConvert}
-                        theme={theme}
                     />
                     
                     {/* 変換オプションセクション */}
@@ -104,7 +98,6 @@ function TextConverterApp() {
                         handleSelectAll={handleSelectAll}
                         handleBatchConvert={handleBatchConvert}
                         CONVERSION_OPTIONS={CONVERSION_OPTIONS}
-                        theme={theme}
                     />
                     
                     {/* カスタム置換セクション */}
@@ -116,9 +109,10 @@ function TextConverterApp() {
                         replaceText={replaceText}
                         setReplaceText={setReplaceText}
                         handleCustomReplace={handleCustomReplace}
-                        theme={theme}
-                        darkMode={darkMode}
                     />
+                    
+                    {/* 広告のためのスペース確保 */}
+                    <Box mt={2} mb={2} height="30px"></Box>
                     
                     {/* スナックバー（通知） */}
                     <Snackbar
@@ -128,6 +122,9 @@ function TextConverterApp() {
                         message={snackbarMessage}
                     />
                 </Container>
+                
+                {/* 広告バナーコンポーネント */}
+                <TextConverter.Components.AdBanner />
             </Paper>
         </ThemeProvider>
     );

@@ -12,9 +12,7 @@ TextConverter.Components.CustomReplaceSection = ({
     setSearchText,
     replaceText,
     setReplaceText,
-    handleCustomReplace,
-    theme,
-    darkMode
+    handleCustomReplace
 }) => {
     const { 
         Button, Card, CardContent, Typography, Collapse, TextField 
@@ -22,16 +20,11 @@ TextConverter.Components.CustomReplaceSection = ({
     
     return (
         <Card className="section">
-            <CardContent className="compact-card-content" style={{
-                backgroundColor: theme.palette.background.paper
-            }}>
+            <CardContent className="compact-card-content">
                 <Typography 
                     variant="h6" 
                     className="section-title clickable-title"
                     onClick={toggleCustomReplace}
-                    style={{
-                        color: theme.palette.text.primary
-                    }}
                 >
                     一括置換
                     <span className="material-icons">
@@ -41,52 +34,22 @@ TextConverter.Components.CustomReplaceSection = ({
                 <Collapse in={customReplaceExpanded}>
                     <div className="custom-replace">
                         <TextField
+                            className="search-text"
                             label="検索文字列"
                             variant="outlined"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
                             size="small"
-                            style={{
-                                minWidth: '150px',
-                                backgroundColor: theme.palette.background.paper
-                            }}
-                            InputLabelProps={{
-                                style: {
-                                    color: theme.palette.text.secondary
-                                }
-                            }}
-                            InputProps={{
-                                style: {
-                                    color: theme.palette.text.primary
-                                },
-                                classes: {
-                                    notchedOutline: darkMode ? 'dark-mode-outline' : ''
-                                }
-                            }}                                
+                            style={{ minWidth: '150px' }}
                         />
                         <TextField
+                            className="replace-text"
                             label="置換文字列"
                             variant="outlined"
                             value={replaceText}
                             onChange={(e) => setReplaceText(e.target.value)}
                             size="small"
-                            style={{
-                                minWidth: '150px',
-                                backgroundColor: theme.palette.background.paper
-                            }}
-                            InputLabelProps={{
-                                style: {
-                                    color: theme.palette.text.secondary
-                                }
-                            }}
-                            InputProps={{
-                                style: {
-                                    color: theme.palette.text.primary
-                                },
-                                classes: {
-                                    notchedOutline: darkMode ? 'dark-mode-outline' : ''
-                                }
-                            }}                                
+                            style={{ minWidth: '150px' }}
                         />
                         <Button 
                             variant="contained" 

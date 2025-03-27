@@ -5,7 +5,7 @@ TextConverter.Components = TextConverter.Components || {};
 /**
  * テキスト統計情報コンポーネント
  */
-TextConverter.Components.TextStats = ({ textStats, theme }) => {
+TextConverter.Components.TextStats = ({ textStats }) => {
     const { Box, Typography } = MaterialUI;
     
     const { totalChars, totalBytes, totalLines, lineChars, lineBytes } = textStats;
@@ -23,10 +23,10 @@ TextConverter.Components.TextStats = ({ textStats, theme }) => {
     
     return (
         <Box mt={2}>
-            <Typography variant="body2" style={{ color: theme.palette.text.primary }}>
+            <Typography variant="body2">
                 全体: {totalChars}文字 / {totalBytes}バイト / {totalLines}行
             </Typography>
-            <Typography variant="body2" mt={1} style={{ color: theme.palette.text.primary }}>
+            <Typography variant="body2" mt={1}>
                 {getLineStats()}
             </Typography>
         </Box>

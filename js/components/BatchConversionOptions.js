@@ -12,8 +12,7 @@ TextConverter.Components.BatchConversionOptions = ({
     handleCheckboxChange, 
     handleSelectAll, 
     handleBatchConvert,
-    CONVERSION_OPTIONS,
-    theme
+    CONVERSION_OPTIONS
 }) => {
     const { 
         Box, Button, Card, CardContent, Typography, Collapse, 
@@ -22,16 +21,11 @@ TextConverter.Components.BatchConversionOptions = ({
     
     return (
         <Card className="section">
-            <CardContent className="compact-card-content" style={{
-                backgroundColor: theme.palette.background.paper
-            }}>
+            <CardContent className="compact-card-content">
                 <Typography 
                     variant="h6" 
                     className="section-title clickable-title"
                     onClick={toggleOptions}
-                    style={{
-                        color: theme.palette.text.primary
-                    }}
                 >
                     一括変換
                     <span className="material-icons">
@@ -71,9 +65,6 @@ TextConverter.Components.BatchConversionOptions = ({
                                         />
                                     }
                                     label={label}
-                                    style={{
-                                        color: theme.palette.text.primary
-                                    }}
                                 />
                             </div>
                         ))}

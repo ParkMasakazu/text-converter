@@ -8,7 +8,6 @@ TextConverter.Components = TextConverter.Components || {};
 TextConverter.Components.TextInput = ({ 
     inputText, 
     handleInputChange, 
-    theme, 
     darkMode, 
     handleThemeChange 
 }) => {
@@ -19,9 +18,6 @@ TextConverter.Components.TextInput = ({
             <Typography 
                 variant="h6" 
                 className="section-title top-title"
-                style={{
-                    color: theme.palette.text.primary
-                }}
             >
                 テキスト入力/変換結果
                 <IconButton 
@@ -40,11 +36,6 @@ TextConverter.Components.TextInput = ({
                 value={inputText}
                 onChange={handleInputChange}
                 placeholder="ここにテキストを入力してください..."
-                style={{
-                    backgroundColor: theme.palette.background.paper,
-                    color: theme.palette.text.primary,
-                    borderColor: theme.palette.border.textarea
-                }}
             ></textarea>
         </>
     );
