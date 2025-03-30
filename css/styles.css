@@ -44,11 +44,6 @@ div.MuiCardContent-root {
   white-space: nowrap;
 }
 
-/* 文字カウントのスタイル */
-div.MuiStack-root {
-  margin: 0 !important;
-}
-
 /* ボタングループのスタイル */
 .action-group,
 .button-group {
@@ -81,15 +76,13 @@ div.MuiStack-root {
 .compact-checkbox .MuiFormControlLabel-label {
   font-size: 90% !important;
 }
-.compact-checkbox .MuiCheckbox-root {
-  padding: 0 2px 0 10px;
-}
 
-/* 一括置換のスタイル */
+/* 置換ラベルのスタイル */
 label.MuiInputLabel-root {
   font-size: 90% !important;
 }
-/* 一括置換フォームのスタイル */
+
+/* 置換フォームのスタイル */
 .MuiInputBase-root.MuiOutlinedInput-root {
   background-color: #FFFFFF !important;
 }
@@ -164,12 +157,7 @@ label.MuiInputLabel-root {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
-/* ダークモード 一括置換ラベルスタイル */
-.dark-mode label.MuiInputLabel-root {
-  font-size: 90% !important;
-}
-
-/* ダークモード 括置換フォームのスタイル */
+/* ダークモード 置換フォームのスタイル */
 .dark-mode .MuiInputBase-root.MuiOutlinedInput-root {
   background-color: #121212 !important;
 }
