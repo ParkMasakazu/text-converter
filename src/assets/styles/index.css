@@ -1,0 +1,175 @@
+/* 基本スタイル */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* カードコンテンツのスタイル */
+div.MuiCardContent-root {
+  padding: 16px !important;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* テキストエリアのスタイル */
+.resizable-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-size: 90%;
+  line-height: 1.3;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: -6px;
+}
+
+/* テキストエリアのスタイル - ホバー */
+.resizable-textarea:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+}
+
+/* テキストエリアのスタイル - フォーカス */
+.resizable-textarea:focus {
+  border-color: #1976d2;
+  border-width: 2px;
+  outline: none;
+}
+
+/* 行数カウントのスタイル */
+.stats-inline {
+  display: inline-block;
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+/* ボタングループのスタイル */
+.action-group,
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+/* 個別変換ボタンのスタイル */
+.button-group button {
+  border: 1px solid rgba(0, 0, 0, 0.23);
+}
+
+/* 個別変換ボタンのスタイル - ホバー */
+.button-group button:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* チェックボックスグループのスタイル */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 3px;
+  line-height: 1.0 !important;
+}
+
+/* チェックボックスのコンパクトスタイル */
+.compact-checkbox .MuiFormControlLabel-label {
+  font-size: 90% !important;
+}
+
+/* 置換ラベルのスタイル */
+label.MuiInputLabel-root {
+  font-size: 90% !important;
+}
+
+/* 置換フォームのスタイル */
+.MuiInputBase-root.MuiOutlinedInput-root {
+  background-color: #FFFFFF !important;
+}
+
+/* 広告リンクのスタイル */
+.ad-link {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  z-index: 1000;
+  text-decoration: none;
+  transition: all 0.1s ease;
+  background-color: #f8f9fa;
+  color: #1976d2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+.ad-link:hover {
+  background-color: #e9ecef;
+  text-decoration: underline;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 600px) {
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ダークモード カードコンテンツのスタイル */
+.dark-mode div.MuiCard-root {
+  box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 0.2),
+    0px 1px 1px 0px rgba(255, 255, 255, 0.14),
+    0px 1px 3px 0px rgba(255, 255, 255, 0.12);
+}
+
+/* ダークモード テキストエリアスタイル */
+.dark-mode .resizable-textarea {
+  background-color: #121212;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.23);
+}
+
+/* ダークモード テキストエリアスタイル - プレースホルダー */
+.dark-mode .resizable-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ダークモード テキストエリアスタイル - ホバー */
+.dark-mode .resizable-textarea:hover {
+  border-color: rgba(255, 255, 255, 0.87);
+}
+
+/* ダークモード テキストエリアスタイル - フォーカス */
+.dark-mode .resizable-textarea:focus {
+  border-color: #90caf9;
+  border-width: 2px;
+  outline: none;
+}
+
+/* ダークモード 個別変換ボタンスタイル */
+.dark-mode .button-group button {
+  border: 1px solid rgba(255, 255, 255, 0.23);
+}
+
+/* ダークモード 個別変換ボタンスタイル - ホバー */
+.dark-mode .button-group button:hover {
+  border-color: rgba(255, 255, 255, 0.87);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ダークモード 置換フォームのスタイル */
+.dark-mode .MuiInputBase-root.MuiOutlinedInput-root {
+  background-color: #121212 !important;
+}
+
+/* ダークモード 広告リンクのスタイル */
+.dark-mode .ad-link {
+  background-color: #333;
+  color: #90caf9;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.dark-mode .ad-link:hover {
+  background-color: #444;
+}
