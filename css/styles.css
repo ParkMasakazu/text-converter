@@ -23,6 +23,7 @@ div.MuiCardContent-root {
   border: 1px solid rgba(0, 0, 0, 0.23);
   resize: vertical;
   box-sizing: border-box;
+  margin-bottom: -6px;
 }
 
 /* テキストエリアのスタイル - ホバー */

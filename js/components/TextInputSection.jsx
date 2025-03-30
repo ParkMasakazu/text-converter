@@ -48,73 +48,25 @@ window.TextInputSection = function({
                     placeholder="ここにテキストを入力してください..."
                 />
                 
-                <MaterialUI.Box className="action-group" mt={2}>
-                    <MaterialUI.Button 
-                        variant="outlined" 
-                        color="secondary" 
-                        startIcon={<span className="material-icons">clear</span>}
-                        onClick={handleClear}
-                        size="small"
-                    >
-                        クリア
-                    </MaterialUI.Button>
-                    <MaterialUI.Button 
-                        variant="outlined" 
-                        color="primary"
-                        onClick={handleCopy}
-                        startIcon={<span className="material-icons">content_copy</span>}
-                        disabled={!inputText}
-                        size="small"
-                    >
-                        コピー
-                    </MaterialUI.Button>
-                    <MaterialUI.Button 
-                        variant="outlined" 
-                        color="primary"
-                        onClick={handleUndo}
-                        startIcon={<span className="material-icons">undo</span>}
-                        disabled={historyIndex <= 0}
-                        size="small"
-                    >
-                        戻る
-                    </MaterialUI.Button>
-                    <MaterialUI.Button 
-                        variant="outlined" 
-                        color="primary"
-                        onClick={handleRedo}
-                        startIcon={<span className="material-icons">redo</span>}
-                        disabled={historyIndex >= history.length - 1}
-                        size="small"
-                    >
-                        進む
-                    </MaterialUI.Button>
-                    <MaterialUI.Button 
-                        variant="outlined" 
-                        color="secondary"
-                        onClick={handleReset}
-                        startIcon={<span className="material-icons">restore</span>}
-                        size="small"
-                    >
-                        最初に戻す
-                    </MaterialUI.Button>
-                    <MaterialUI.Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', ml: 1, color: 'text.secondary' }}>
-                        （テキストを直接編集すると戻す初期値が更新されます。）
-                    </MaterialUI.Typography>
-                </MaterialUI.Box>
+                {/* アクションボタン */}
+                <ActionButtons 
+                    inputText={inputText}
+                    handleCopy={handleCopy}
+                    handleClear={handleClear}
+                    handleUndo={handleUndo}
+                    handleRedo={handleRedo}
+                    handleReset={handleReset}
+                    historyIndex={historyIndex}
+                    history={history}
+                />
                 
-                {/* 文字数・バイト数・行数カウント */}
-                <MaterialUI.Box sx={{ mt: 2 }}>
-                    <MaterialUI.Typography variant="body2">
-                        全体: {totalChars}文字 / {totalBytes}バイト / {totalLines}行
-                    </MaterialUI.Typography>
-                    <MaterialUI.Typography variant="body2" sx={{ mt: 0 }}>
-                        {getLineStats()?.map(line => (
-                            <span key={line.lineNum} className="stats-inline">
-                                {line.lineNum}行目: {line.chars}文字/{line.bytes}バイト
-                            </span>
-                        ))}
-                    </MaterialUI.Typography>
-                </MaterialUI.Box>
+                {/* テキスト統計情報 */}
+                <TextStatistics 
+                    totalChars={totalChars}
+                    totalBytes={totalBytes}
+                    totalLines={totalLines}
+                    getLineStats={getLineStats}
+                />
             </MaterialUI.CardContent>
         </MaterialUI.Card>
     );
