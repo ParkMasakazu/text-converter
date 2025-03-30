@@ -3,6 +3,10 @@ node_modules
 .pnp
 .pnp.js
 
+# production
+.vite
+dist
+
 # testing
 coverage
 

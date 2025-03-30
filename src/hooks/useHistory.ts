@@ -41,7 +41,6 @@ export const useHistory = (
 
   // 履歴を移動する共通の関数
   const moveHistory = (
-    direction: 'back' | 'forward',
     canMoveCheck: boolean,
     indexChange: number,
     successMessage: string,
@@ -63,7 +62,6 @@ export const useHistory = (
   // 履歴を一つ前に戻る
   const handleUndo = (): string | null => {
     return moveHistory(
-      'back',
       historyIndex > 0,
       -1,
       '一つ前の状態に戻りました',
@@ -74,7 +72,6 @@ export const useHistory = (
   // 履歴を一つ先に進む
   const handleRedo = (): string | null => {
     return moveHistory(
-      'forward',
       historyIndex < history.length - 1,
       1,
       '一つ先の状態に進みました',

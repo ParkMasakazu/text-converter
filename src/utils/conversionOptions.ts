@@ -1,4 +1,4 @@
-import { ConversionOption, ConversionOptions } from '../types';
+import { ConversionOptions } from '../types';
 
 export const CONVERSION_OPTIONS: ConversionOptions = {
   spaceNormalization: {
