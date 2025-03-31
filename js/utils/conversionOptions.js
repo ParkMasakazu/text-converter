@@ -72,11 +72,11 @@ window.CONVERSION_OPTIONS = {
         }
     },
     fullWidthAlphanumericToHalfWidth: {
-        label: "全角→半角英数字",
+        label: "全角→半角英数字小",
         convert: text => {
             return text.replace(/[\uFF01-\uFF5E]/g, s => {
                 return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-            });
+            }).toLowerCase();
         }
     },
     removeDuplicateWords: {
@@ -88,11 +88,11 @@ window.CONVERSION_OPTIONS = {
         convert: text => text.replace(/ /g, '\n')
     },
     sortWordsJapanese: {
-        label: "あいうえお順",
+        label: "あいうえお↑昇順",
         convert: text => text.split(/\s+/).sort((a, b) => a.localeCompare(b, 'ja')).join(' ')
     },
     sortWordsJapaneseDesc: {
-        label: "あいうえお降順",
+        label: "あいうえお↓降順",
         convert: text => text.split(/\s+/).sort((a, b) => b.localeCompare(a, 'ja')).join(' ')
     }
 };
