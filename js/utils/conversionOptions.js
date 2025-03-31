@@ -90,5 +90,9 @@ window.CONVERSION_OPTIONS = {
     sortWordsJapanese: {
         label: "あいうえお順",
         convert: text => text.split(/\s+/).sort((a, b) => a.localeCompare(b, 'ja')).join(' ')
+    },
+    sortWordsJapaneseDesc: {
+        label: "あいうえお降順",
+        convert: text => text.split(/\s+/).sort((a, b) => b.localeCompare(a, 'ja')).join(' ')
     }
 };
