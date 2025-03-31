@@ -1,5 +1,9 @@
 // グローバル変数として定義
-window.SingleConversionSection = function({ conversionOptions, handleSingleConvert }) {
+window.SingleConversionSection = function({ 
+    inputText,
+    conversionOptions,
+    handleSingleConvert
+}) {
     return (
         <MaterialUI.Card sx={{ mb: 2 }}>
             <MaterialUI.CardContent>
@@ -10,10 +14,11 @@ window.SingleConversionSection = function({ conversionOptions, handleSingleConve
                     {Object.entries(conversionOptions).map(([key, { label }]) => (
                         <MaterialUI.Button 
                             key={key}
-                            variant="outlined"
+                            variant="contained"
                             color="inherit"
                             onClick={() => handleSingleConvert(key)}
                             size="small"
+                            disabled={!inputText}
                         >
                             {label}
                         </MaterialUI.Button>

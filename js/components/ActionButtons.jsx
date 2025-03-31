@@ -12,8 +12,8 @@ window.ActionButtons = function({
     return (
         <MaterialUI.Box className="action-group" mt={2}>
             <MaterialUI.Button 
-                variant="outlined" 
-                color="secondary" 
+                variant="contained" 
+                color="warning" 
                 startIcon={<span className="material-icons">clear</span>}
                 onClick={handleClear}
                 size="small"
@@ -21,7 +21,7 @@ window.ActionButtons = function({
                 クリア
             </MaterialUI.Button>
             <MaterialUI.Button 
-                variant="outlined" 
+                variant="contained" 
                 color="primary"
                 onClick={handleCopy}
                 startIcon={<span className="material-icons">content_copy</span>}
@@ -31,7 +31,7 @@ window.ActionButtons = function({
                 コピー
             </MaterialUI.Button>
             <MaterialUI.Button 
-                variant="outlined" 
+                variant="contained" 
                 color="primary"
                 onClick={handleUndo}
                 startIcon={<span className="material-icons">undo</span>}
@@ -41,7 +41,7 @@ window.ActionButtons = function({
                 戻る
             </MaterialUI.Button>
             <MaterialUI.Button 
-                variant="outlined" 
+                variant="contained" 
                 color="primary"
                 onClick={handleRedo}
                 startIcon={<span className="material-icons">redo</span>}
@@ -51,8 +51,8 @@ window.ActionButtons = function({
                 進む
             </MaterialUI.Button>
             <MaterialUI.Button 
-                variant="outlined" 
-                color="secondary"
+                variant="contained" 
+                color="warning"
                 onClick={handleReset}
                 startIcon={<span className="material-icons">restore</span>}
                 size="small"

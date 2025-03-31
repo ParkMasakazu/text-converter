@@ -125,6 +125,7 @@ window.TextConverterApp = function() {
 
                 {/* 個別変換セクション */}
                 <SingleConversionSection 
+                    inputText={inputText}
                     conversionOptions={CONVERSION_OPTIONS}
                     handleSingleConvert={handleSingleConvert}
                 />
