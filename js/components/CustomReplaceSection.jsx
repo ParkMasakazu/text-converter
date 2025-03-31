@@ -9,6 +9,12 @@ window.CustomReplaceSection = function({ onCustomReplace }) {
         onCustomReplace(searchText, replaceText);
     };
     
+    // クリアボタンのハンドラー
+    const handleClear = () => {
+        setSearchText('');
+        setReplaceText('');
+    };
+    
     return (
         <MaterialUI.Card sx={{ mb: 2 }}>
             <MaterialUI.CardContent>
@@ -29,7 +35,7 @@ window.CustomReplaceSection = function({ onCustomReplace }) {
                     </span>
                 </MaterialUI.Box>
                 <MaterialUI.Collapse in={expanded}>
-                    <MaterialUI.Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" sx={{ mt: 2 }}>
+                    <MaterialUI.Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems="center" sx={{ mt: 2 }}>
                         <MaterialUI.TextField
                             label="検索文字列"
                             variant="outlined"
@@ -55,6 +61,16 @@ window.CustomReplaceSection = function({ onCustomReplace }) {
                             disabled={!searchText}
                         >
                             置換
+                        </MaterialUI.Button>
+                        <MaterialUI.Button 
+                            variant="contained" 
+                            color="warning"
+                            onClick={handleClear}
+                            startIcon={<span className="material-icons">clear</span>}
+                            size="small"
+                            disabled={!searchText && !replaceText}
+                        >
+                            クリア
                         </MaterialUI.Button>
                     </MaterialUI.Stack>
                 </MaterialUI.Collapse>
