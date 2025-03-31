@@ -16,6 +16,7 @@ window.ActionButtons = function({
                 color="warning" 
                 startIcon={<span className="material-icons">clear</span>}
                 onClick={handleClear}
+                disabled={!inputText}
                 size="small"
             >
                 クリア
@@ -45,7 +46,7 @@ window.ActionButtons = function({
                 color="primary"
                 onClick={handleRedo}
                 startIcon={<span className="material-icons">redo</span>}
-                disabled={historyIndex >= history.length - 1}
+                disabled={!inputText || historyIndex >= history.length - 1}
                 size="small"
             >
                 進む
@@ -55,6 +56,7 @@ window.ActionButtons = function({
                 color="warning"
                 onClick={handleReset}
                 startIcon={<span className="material-icons">restore</span>}
+                disabled={!inputText}
                 size="small"
             >
                 最初に戻す
