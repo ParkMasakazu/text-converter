@@ -20,8 +20,11 @@ window.useHistory = function(showSnackbar, updateCharAndByteCount) {
         const newText = conversionFunc(text);
         if (newText === text) return text; // 変化がない場合は何もしない
         
-        updateCharAndByteCount(newText);
-        const resultText = addToHistory(newText, text);
+    // 先頭の空白文字と改行を削除
+    const trimmedText = newText.replace(/^[\s\n]+/, '');
+    
+    updateCharAndByteCount(trimmedText);
+    const resultText = addToHistory(trimmedText, text);
         showSnackbar(successMessage);
         
         return resultText;
