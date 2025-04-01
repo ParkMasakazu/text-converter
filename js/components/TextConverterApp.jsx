@@ -152,12 +152,12 @@ window.TextConverterApp = function() {
                     open={snackbarOpen}
                     autoHideDuration={3000}
                     onClose={handleSnackbarClose}
+                    className="notification-snackbar"
                 >
                     <MaterialUI.Alert 
                         onClose={handleSnackbarClose} 
                         severity="success" 
                         variant="filled"
-                        sx={{ width: '100%' }}
                     >
                         {snackbarMessage}
                     </MaterialUI.Alert>

@@ -116,10 +116,39 @@ label.MuiInputLabel-root {
   text-decoration: underline;
 }
 
+/* スナックバー（通知）のスタイル */
+.notification-snackbar {
+  width: 100%;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+.notification-snackbar .MuiAlert-icon {
+  padding: 0;
+  align-items: center;
+  color: #ffffff;
+}
+.notification-snackbar .MuiAlert-message {
+  padding: 6px 0 5px;
+  opacity: 1;
+  color: #ffffff;
+}
+.notification-snackbar .MuiAlert-action {
+  padding: 0;
+  margin-left: 16px;
+  align-items: center;
+  color: #ffffff;
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 600px) {
   .checkbox-group {
     grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 600px) {
+  .notification-snackbar {
+    bottom: 8px !important;
+    left: 8px !important;
   }
 }
 
