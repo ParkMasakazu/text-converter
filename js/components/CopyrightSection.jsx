@@ -2,7 +2,7 @@
 window.CopyrightSection = function() {
     return (
         <MaterialUI.Box className="copyright-section">
-            © {new Date().getFullYear()} park.m - MIT License
+            © {new Date().getFullYear()} parkmasakazu - MIT License
         </MaterialUI.Box>
     );
 }
