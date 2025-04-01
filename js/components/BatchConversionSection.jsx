@@ -98,6 +98,7 @@ window.BatchConversionSection = function({ conversionOptions, onBatchConvert }) 
                             onClick={handleApply}
                             startIcon={<span className="material-icons">transform</span>}
                             size="small"
+                            disabled={!Object.values(options).some(isSelected => isSelected)}
                         >
                             選択した変換を一括適用
                         </MaterialUI.Button>
