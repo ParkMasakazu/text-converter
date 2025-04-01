@@ -88,6 +88,13 @@ label.MuiInputLabel-root {
   background-color: #FFFFFF !important;
 }
 
+/* コピーライトのスタイル */
+.copyright-section {
+  padding-left: 5px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}
+
 /* 広告リンクのスタイル */
 .ad-link {
   position: fixed;
@@ -161,6 +168,12 @@ label.MuiInputLabel-root {
 /* ダークモード 置換フォームのスタイル */
 .dark-mode .MuiInputBase-root.MuiOutlinedInput-root {
   background-color: #121212 !important;
+}
+
+/* ダークモード コピーライトのスタイル */
+.dark-mode .copyright-section {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* ダークモード 広告リンクのスタイル */

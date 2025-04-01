@@ -141,9 +141,12 @@ window.TextConverterApp = function() {
                     onCustomReplace={handleCustomReplace}
                 />
 
+                {/* コピーライト表示 */}
+                <CopyrightSection />
+
                 {/* 広告セクション */}
                 <AdvertisementSection />
-
+                
                 {/* スナックバー（通知） */}
                 <MaterialUI.Snackbar
                     open={snackbarOpen}
